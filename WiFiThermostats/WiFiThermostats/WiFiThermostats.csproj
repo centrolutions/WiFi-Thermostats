@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C5BC5B6C-084C-48E2-B9C0-D56D89210A26}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WiFiThermostats</RootNamespace>
+    <AssemblyName>WiFiThermostats</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Discovery.cs" />
+    <Compile Include="Json\Client.cs" />
+    <Compile Include="Json\CloudMessage.cs" />
+    <Compile Include="Json\IClient.cs" />
+    <Compile Include="Json\ModelMessage.cs" />
+    <Compile Include="Json\NameMessage.cs" />
+    <Compile Include="Json\PostResult.cs" />
+    <Compile Include="Json\ProgramMessage.cs" />
+    <Compile Include="Json\SystemFirmwareMessage.cs" />
+    <Compile Include="Json\SystemMessage.cs" />
+    <Compile Include="Json\SystemModeMessage.cs" />
+    <Compile Include="Json\TstatMessage.cs" />
+    <Compile Include="Json\TstatMessageEnums.cs" />
+    <Compile Include="Json\TstatTime.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ThermostatBase.cs" />
+    <Compile Include="ThermostatResultEventArgs.cs" />
+    <Compile Include="Upnp\DeviceFoundEventArgs.cs" />
+    <Compile Include="Upnp\ISsdp.cs" />
+    <Compile Include="Upnp\SearchStoppedEventArgs.cs" />
+    <Compile Include="Upnp\SearchStoppedReson.cs" />
+    <Compile Include="Upnp\Ssdp.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
