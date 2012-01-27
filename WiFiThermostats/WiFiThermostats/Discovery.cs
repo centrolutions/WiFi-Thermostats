@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 
 namespace WiFiThermostats
 {
-    public class Discovery
+    public class Discovery : IDisposable
     {
         const string WM_DISCOVERMessage = "TYPE: WM-DISCOVER\r\nVERSION: 1.0\r\n\r\nservices: com.marvell.wm.system*\r\n\r\n";
         ISsdp _Ssdp;
@@ -43,9 +43,27 @@ namespace WiFiThermostats
             if (service.StartsWith("com.marvell.wm") && e.Results.TryGetValue("LOCATION", out location))
             {
                 var newTstat = new ThermostatBase(location);
-                var existingTstat = Results.Where(t => t.Equals(newTstat));
+                var existingTstat = Results.Where(t => t.Equals(newTstat)).SingleOrDefault();
                 if (existingTstat == null)
                     Results.Add(newTstat);
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (_Ssdp != null)
+                {
+                    _Ssdp.Dispose();
+                    _Ssdp = null;
+                }
             }
         }
     }

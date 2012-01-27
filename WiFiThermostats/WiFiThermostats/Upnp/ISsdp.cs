@@ -5,7 +5,7 @@ using System.Text;
 
 namespace WiFiThermostats.Upnp
 {
-    public interface ISsdp
+    public interface ISsdp : IDisposable
     {
         void Cleanup();
         void StartSearch();

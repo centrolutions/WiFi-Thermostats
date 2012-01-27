@@ -8,7 +8,7 @@ using System.Runtime.Serialization.Json;
 
 namespace WiFiThermostats.Json
 {
-    public class Client : IClient
+    internal class Client : IClient
     {
         public void GetData<T>(string url, Action<T> callback)
         {
@@ -21,6 +21,9 @@ namespace WiFiThermostats.Json
                 T result = default(T);
                 GetObject(json, out result);
                 callback(result);
+#if !WINDOWS_PHONE
+                web.Dispose();
+#endif
             };
             web.DownloadStringAsync(new Uri(url));
         }
@@ -36,6 +39,9 @@ namespace WiFiThermostats.Json
                 PostResult result = null;
                 GetObject(json, out result);
                 callback(result);
+#if !WINDOWS_PHONE
+                web.Dispose();
+#endif
             };
             string messageString = (typeof(T) == typeof(string)) ? message as string : GetJsonString(message);
             web.UploadStringAsync(new Uri(url), messageString);
@@ -54,9 +60,9 @@ namespace WiFiThermostats.Json
         string GetJsonString<T>(T dataContract)
         {
             string result = string.Empty;
-            var dcs = new DataContractJsonSerializer(typeof(T));
             using (var ms = new MemoryStream())
             {
+                var dcs = new DataContractJsonSerializer(typeof(T));
                 dcs.WriteObject(ms, dataContract);
                 ms.Flush();
                 ms.Position = 0;

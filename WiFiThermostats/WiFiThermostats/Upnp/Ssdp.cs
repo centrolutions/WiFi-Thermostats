@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace WiFiThermostats.Upnp
 {
-    public class Ssdp : ISsdp
+    internal class Ssdp : ISsdp
     {
         const string SSDPAddress = "239.255.255.250";
         const int SSDPPort = 1900;
@@ -22,6 +22,7 @@ namespace WiFiThermostats.Upnp
 
         SearchState state;
         Socket searchSocket;
+        SocketAsyncEventArgs socketArgs;
 
         Timer retryTimer;
         Timer timeoutTimer;
@@ -65,11 +66,14 @@ namespace WiFiThermostats.Upnp
 
         SocketAsyncEventArgs CreateSearchEventArgs()
         {
-            SocketAsyncEventArgs args = new SocketAsyncEventArgs();
-            args.Completed += new EventHandler<SocketAsyncEventArgs>(ListenCompleted);
-            args.SetBuffer(searchMessage, 0, searchMessage.Length);
-            args.RemoteEndPoint = multicastEndpoint;
-            return args;
+            if (socketArgs == null)
+            {
+                socketArgs = new SocketAsyncEventArgs();
+                socketArgs.Completed += new EventHandler<SocketAsyncEventArgs>(ListenCompleted);
+                socketArgs.SetBuffer(searchMessage, 0, searchMessage.Length);
+                socketArgs.RemoteEndPoint = multicastEndpoint;
+            }
+            return socketArgs;
         }
 
         void SearchRetry(object state)
@@ -183,6 +187,43 @@ namespace WiFiThermostats.Upnp
             NotSearching,
             Searching,
             SearchingCompleted
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                //free managed resources
+                if (socketArgs != null)
+                {
+                    socketArgs.Dispose();
+                    socketArgs = null;
+                }
+
+                if (searchSocket != null)
+                {
+                    searchSocket.Dispose();
+                    searchSocket = null;
+                }
+
+                if (timeoutTimer != null)
+                {
+                    timeoutTimer.Dispose();
+                    timeoutTimer = null;
+                }
+
+                if (retryTimer != null)
+                {
+                    retryTimer.Dispose();
+                    retryTimer = null;
+                }
+            }
         }
     }
 }

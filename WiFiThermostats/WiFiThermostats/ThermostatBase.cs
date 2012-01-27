@@ -18,11 +18,11 @@ namespace WiFiThermostats
      * /sys/firmware                X       X       X                   scary; don't want to implement, yet
      * /sys/fs-image                        X                           scary; don't want to implement, yet
      * /sys/fw-image                        X                           scary; don't want to implement, yet
-     * /sys/mode                    X       X       X                   
+     * /sys/mode                    X       X       X                   X
      * /sys/name                    X       X       X                   X
      * /sys/network                 X       X
      * /sys/services                X
-     * /sys/updater                         X
+     * /sys/updater                         X                           scary; don't want to implement, yet
      * /sys/watchdog                X       X
      * /tstat                       X       X       X                   X
      * /tstat/version               X 
